@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+    <head>
+        <title>Canteen Management System </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+        <link th:href="@{css/login.css}" rel="stylesheet" media="screen">
+
+        <script th:src="@{js/libs/jquery-1.11.3.min.js}"></script>
+        <script th:src="@{js/libs/dynamics.min.js}"></script>
+        <script th:src="@{js/libs/angular.min.js}"></script>
+        <script th:src="@{js/libs/angular-route.min.js}"></script>
+        <script th:src="@{js/libs/angular-resource.min.js}"></script>
+        <script th:src="@{js/libs/angular-animate.min.js}"></script>
+        <script th:src="@{js/libs/angular-aria.min.js}"></script>
+       
+    </head>
+    <body>
+        <header class="header">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="navbar-holder d-flex align-items-center justify-content-between">
+                        <div class="navbar-header">
+                            <div class="navbar-brand d-none d-sm-inline-block">
+                                    <div style="position: relative">
+                                        <img src="./images/mess.png" class="himg" width="40" height="40"> 
+                                            <h1>Canteen Management System - Admin Dashboard</h1>
+                                    </div>      
+                            </div>
+                        </div>
+                        <div style="position: relative" align="right">
+                            <button type="submit" class="btn btn-default">
+                                <a th:href="@{/}">Log Out</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="row" style="margin-top: 50px">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="flip-container">
+                    <div class="flipper">  
+                        <div class="front">
+                            <form role="form" method="post">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/createUser}">
+                                            <input type="button" class="form-control" name="user" value="Add User" required="required">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/viewUser}">
+                                            <input type="button" class="form-control" name="user" value="View User" required="required">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/manageUser}">
+                                            <input type="button" class="form-control" name="item" value="Manage User" required="required">
+                                            </a>
+                                        </div>
+                                    </div>     
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/viewItem}">
+                                            <input type="button" class="form-control" name="user" value="View Items" required="required">
+                                            </a>
+                                        </div>
+                                    </div>                                  
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/addItems}">
+                                            <input type="button" class="form-control" name="insert" value="Add Items" required="required">
+                                            </a>
+                                        </div>
+                                    </div>                                            
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/manageItems}">
+                                            <input type="button" class="form-control" name="manage" value="Manage Items" required="required">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/viewOrders}">
+                                            <input type="button" class="form-control" name="viewOrders" value="View Orders" required="required">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <div class="col-sm-7">
+                                            <a th:href="@{/viewTransaction}">
+                                            <input type="button" class="form-control" name="viewTransaction" value="View Transaction" required="required">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>         
+
+    </body>
+</html>

@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+    <head>
+        <title>Canteen Management System </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+        <link th:href="@{css/login.css}" rel="stylesheet" media="screen">
+
+        <script th:src="@{js/libs/jquery-1.11.3.min.js}"></script>
+        <script th:src="@{js/libs/dynamics.min.js}"></script>
+        <script th:src="@{js/libs/angular.min.js}"></script>
+        <script th:src="@{js/libs/angular-route.min.js}"></script>
+        <script th:src="@{js/libs/angular-resource.min.js}"></script>
+        <script th:src="@{js/libs/angular-animate.min.js}"></script>
+        <script th:src="@{js/libs/angular-aria.min.js}"></script>
+       
+    </head>
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3" style="margin-top: 100px">
+                    <div style="position: relative">
+                        <img src="./images/mess.png" class="himg" />
+                        <h1>Canteen Management System</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="flip-container">
+                        <div class="flipper">  
+                            <div class="front">
+                                <form method="POST" th:action="@{/addAccount}">
+                                    <input type="hidden" name="type" value="login" />
+                                    <p style="color:#ff6666">
+                                    <div class="form-group">
+                                        <label>User ID</label>
+                                        <input type="text" name="u_id" class="form-control"  placeholder="Enter your ID" value="" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" name="name" class="form-control"  placeholder="Enter name" value="" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="Email" name="email" class="form-control"  placeholder="Enter your email" value="" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact No</label>
+                                        <input type="number" name="phone" class="form-control"  placeholder="Enter your contact number" value="" required maxlength="10">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Role</label>
+                                        <input type="text" name="role" class="form-control" placeholder="Enter the role" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Register</button>
+                                    <button type="submit" class="btn btn-default">
+                                        <a th:href="@{/}">Back</a>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

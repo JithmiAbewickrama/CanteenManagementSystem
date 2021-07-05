@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http:www.thymeleaf.org">
+<head>
+    <title>view items</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{css/login.css}" rel="stylesheet" media="screen">
+
+    <script th:src="@{js/libs/jquery-1.11.3.min.js}"></script>
+    <script th:src="@{js/libs/dynamics.min.js}"></script>
+    <script th:src="@{js/libs/angular.min.js}"></script>
+    <script th:src="@{js/libs/angular-route.min.js}"></script>
+    <script th:src="@{js/libs/angular-resource.min.js}"></script>
+    <script th:src="@{js/libs/angular-animate.min.js}"></script>
+    <script th:src="@{js/libs/angular-aria.min.js}"></script>
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin-top: 100px">
+            <div style="position: relative">
+                <img src="./images/mess.png" class="himg" />
+                <h1>Manage Item Details</h1>
+                <br><br><br>
+                <div class="card-body">
+                    <table border="1">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Item Type</th>
+                            <th>Item Name</th>
+                            <th>Unit Price</th>
+                            <th>Manufacture Date</th>
+                            <th>Expire Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item:${ViewItems}">
+                            <td th:text="${item.getItem_id()}"></td>
+                            <td th:text="${item.getName()}"></td>
+                            <td th:text="${item.getItem_type()}"></td>
+                            <td th:text="${item.getUnit_price()}"></td>
+                            <td th:text="${item.getMfd_date()}"></td>
+                            <td th:text="${item.getExp_date()}"></td>
+                            <td class="text-center" >
+                                <form action="" method="post">
+                                    <a th:href="@{/admin/update_item/{i_id}(i_id = ${item.getItem_id()})}" class="btn btn-success btn-sm rounded">
+                                        <i class="fa fa-pencil"> Update</i>
+                                    </a>
+                                    <a th:href="@{/delete_item/{id}(id = ${item.getItem_id()})}" class="btn btn-danger btn-sm rounded" onclick="return confirm('Are you sure you want to delete this?')">
+                                        <i class="fa fa-trash"> Delete</i>
+                                    </a>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="submit" class="btn btn-default">
+                    <a th:href="@{adminDash}">Back</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
