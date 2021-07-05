@@ -1,0 +1,15 @@
+SET GLOBAL EVENT_SCHEDULER = ON;
+DROP EVENT IF EXISTS daily_transaction_summery;
+CREATE EVENT daily_transaction_summery
+ON SCHEDULE EVERY 1 DAY
+STARTS CONCAT(DATE(NOW()), ' 23:59:55')
+ON COMPLETION PRESERVE
+DO
+INSERT INTO transactions_summary(date, amount, count) 
+VALUES 
+(DATE(NOW()), calculate_daily_transaction_amount(), calculate_daily_transaction_count());
+
+INSERT INTO transactions_summary
+(date, amount, count)
+VALUES
+(DATE(NOW()), calculate_daily_transaction_amount(), calculate_daily_transaction_count());

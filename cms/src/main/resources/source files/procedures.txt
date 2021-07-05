@@ -1,0 +1,204 @@
+
+insert order to order table
+
+
+DROP PROCEDURE IF EXISTS insert_order;
+DELIMITER //
+CREATE PROCEDURE insert_order
+(IN order_id CHAR(6), IN item VARCHAR(255), IN quantity INT(3), IN itm_id CHAR(6), IN user_id CHAR(6))
+BEGIN
+DECLARE total FLOAT(5,2);
+SELECT unit_price
+INTO total
+FROM item
+WHERE item_id=itm_id;
+SET total = total * quantity;
+INSERT INTO order_details(order_id, item, quantity, item_id, user_id, amount)
+VALUES
+(order_id, item, quantity, itm_id, user_id, total);
+END//
+DELIMITER ;
+
+CALL insert_order('OD/01','Cake',3,'P004','U001');
+CALL insert_order('OD/02','Yogurt',5,'P005','U001');
+CALL insert_order('OD/03','Chocolate',2,'P001','U002');
+CALL insert_order('OD/04','Biscuit',3,'P002','U002');
+CALL insert_order('OD/05','Kottu',4,'P006','U003');
+
+######################################################################################################################
+
+insert order into transaction table
+
+
+DROP PROCEDURE IF EXISTS insert_order_to_transaction;
+DELIMITER //
+CREATE PROCEDURE insert_order_to_transaction(IN t_id CHAR(6), IN o_id CHAR(6)) 
+BEGIN
+DECLARE total FLOAT(2); 
+DECLARE t_date DATE;
+SELECT amount, curdate()
+INTO total, t_date 
+FROM order_details 
+WHERE order_id = o_id;
+INSERT INTO transaction(t_id, order_id, total_amount, date) 
+VALUES (t_id, o_id, total, t_date);
+END//
+DELIMITER ;
+
+
+CALL insert_order_to_transaction('T001','OD/01');
+
+
+##################################################################################################
+
+add item to item table 
+
+
+DROP PROCEDURE IF EXISTS add_item;
+DELIMITER //
+CREATE PROCEDURE add_item(IN item_id CHAR(6),IN type VARCHAR(100),IN item_name VARCHAR(100),IN unit_price FLOAT(5,2),IN ex_date DATE,IN manu_date DATE)
+BEGIN
+INSERT INTO item(item_id,item_type,name,unit_price,mfd_date,exp_date)
+VALUES
+(item_id,type,item_name,unit_price,ex_date,manu_date);
+END//
+DELIMITER ;
+
+CALL add_item('P005','Food','Kottu',120.00,'2022-06-30','2021-06-30');
+
+#################################################################################################
+
+Delte item  from item table
+
+
+DROP PROCEDURE IF EXISTS delete_item;
+DELIMITER //
+CREATE PROCEDURE delete_item(IN item_id_no CHAR(6))
+BEGIN
+DELETE FROM item 
+WHERE item_id =item_id_no;
+END//
+DELIMITER ;
+
+CALL delete_item('P005');
+
+DROP PROCEDURE IF EXISTS delete_user;
+DELIMITER //
+CREATE PROCEDURE delete_user(IN u_id CHAR(6))
+BEGIN
+DELETE FROM user 
+WHERE user_id =u_id;
+END//
+DELIMITER ;
+
+
+CALL delete_user('U007');
+
+#######################################################################################################
+
+Update item in item table
+
+
+DROP PROCEDURE IF EXISTS update_item;
+DELIMITER //
+CREATE PROCEDURE update_item(IN id CHAR(6),IN type VARCHAR(100),
+                             IN item_name VARCHAR(100),IN price FLOAT(5,2),
+                             IN ex_date DATE,IN manu_date DATE)
+BEGIN
+   UPDATE item
+   SET item_type=type,
+       name=item_name,
+       unit_price=price,
+       mfd_date=manu_date,
+       exp_date=ex_date
+   WHERE item_id =id;
+END// 
+
+CALL update_item('P006','Food','Kottu',150.00,'2021-06-30','2021-06-30');
+
+##########################################################################################################################################
+
+Update orders in order_detals table
+
+
+DROP PROCEDURE IF EXISTS update_order;
+DELIMITER //
+CREATE PROCEDURE update_order(IN o_id CHAR(6),IN item_name VARCHAR(255),
+                              IN quantity INT,IN itm_id CHAR(6),
+                              IN u_id CHAR(6))
+BEGIN
+DECLARE total FLOAT(5,2);
+
+   SELECT unit_price
+   INTO total
+   FROM item
+   WHERE item_id=itm_id;
+   SET total = total * quantity;
+
+   UPDATE order_details
+   SET 
+      item=item_name,
+      quantity=quantity,
+      item_id =itm_id,
+      user_id=u_id,
+      amount=total
+   WHERE order_id =o_id;
+
+END//
+DELIMITER ;
+
+CALL update_order('OD/01','Cake',5,'P002','U001');
+
+###################################################################################################
+
+view users order details 
+
+
+DROP PROCEDURE IF EXISTS view_user_orders;
+DELIMITER //
+CREATE PROCEDURE view_user_orders(IN u_id VARCHAR(6))
+BEGIN
+SELECT o.user_id, i.item_id, i.name, o.quantity, i.unit_price, o.amount, o.date 
+FROM order_details o, item i  
+WHERE o.item_id = i.item_id AND o.user_id = u_id;
+END//
+DELIMITER ;
+
+CALL view_user_orders('U001');
+
+
+###################################################################################################
+
+users order details invoice
+
+
+DROP PROCEDURE IF EXISTS order_details_invoice;
+DELIMITER //
+CREATE PROCEDURE order_details_invoice(IN u_id VARCHAR(6))
+BEGIN
+SELECT o.user_id, i.item_id, i.name, o.quantity, i.unit_price, o.amount, o.date 
+FROM order_details o, item i  
+WHERE o.item_id = i.item_id AND o.user_id = u_id;
+END//
+DELIMITER ;
+
+CALL order_details_invoice(1);
+
+
+################################################################################################
+
+
+DROP PROCEDURE IF EXISTS insert_user;
+DELIMITER //
+CREATE PROCEDURE insert_user(IN u_id CHAR(6), IN name VARCHAR(255), IN email VARCHAR(255), IN password VARCHAR(255), IN mobile INT, IN role VARCHAR(255))
+BEGIN
+
+INSERT INTO user(user_id, name, email, password, mobile, role)
+VALUES
+(u_id, name, email, password, mobile, role);
+END//
+DELIMITER ;
+
+CALL insert_user("U004","Kalpa","kalpa@gmail.com","kalpa",0781234569,"Staff");
+
+

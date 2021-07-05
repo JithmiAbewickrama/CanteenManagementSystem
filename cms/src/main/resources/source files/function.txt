@@ -1,0 +1,46 @@
+
+calculate daily transaction total amount
+
+
+DROP FUNCTION IF EXISTS calculate_daily_transaction_amount;
+DELIMITER //
+CREATE FUNCTION calculate_daily_transaction_amount() 
+RETURNS FLOAT
+    DETERMINISTIC
+BEGIN
+    DECLARE daily_transaction_amount FLOAT;
+    SELECT SUM(total_amount) 
+    INTO daily_transaction_amount
+    FROM transaction
+    WHERE DATE(date)=DATE(NOW())
+    GROUP BY date;
+    RETURN (daily_transaction_amount);
+END//
+DELIMITER ;
+
+select calculate_daily_transaction_amount();
+
+######################################################################
+
+calculate daily transaction total count
+
+
+DROP FUNCTION IF EXISTS calculate_daily_transaction_count;
+DELIMITER //
+CREATE FUNCTION calculate_daily_transaction_count() 
+RETURNS INT
+    DETERMINISTIC
+BEGIN
+    DECLARE daily_transaction_count INT;
+    SELECT COUNT(t_id) 
+    INTO daily_transaction_count
+    FROM transaction
+    WHERE DATE(date)=DATE(now())
+    GROUP BY date;
+    RETURN (daily_transaction_count);
+END//
+DELIMITER ;
+
+select calculate_daily_transaction_count();
+
+######################################################################

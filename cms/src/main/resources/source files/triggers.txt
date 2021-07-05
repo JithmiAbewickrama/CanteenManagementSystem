@@ -1,0 +1,469 @@
+
+User log
+
+
+DROP TRIGGER IF EXISTS TR_after_insert_user;
+DELIMITER //
+CREATE TRIGGER TR_after_insert_user
+AFTER INSERT 
+ON user 
+FOR EACH ROW
+BEGIN
+
+DECLARE user_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET user_data  = CONCAT_WS
+(', ', new.user_id, new.name, new.email, new.password, new.mobile, new.role);
+SET user = CURRENT_USER;
+SET operation = 'INSERT';
+SET changedat = now();
+
+INSERT INTO user_log (data, user, operation, changedat)
+VALUES
+(user_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+INSERT INTO user
+VALUES
+("U001","Jithmi","jithmi@gmail.com","jithmi",0781234568,"Student"),
+("U002","Dasunika","dasunika@gmail.com","dasu",0751234568,"Staff"),
+("U003","Isanka","isanka@gmail.com","isanka",0715234568,"Staff"),
+("U004","Ishara","ishara@gmail.com","ishara",0771234568,"Student");
+
+#############################################################################################
+
+DROP TRIGGER IF EXISTS TR_after_update_user;
+DELIMITER //
+CREATE TRIGGER TR_after_update_user
+AFTER UPDATE 
+ON user 
+FOR EACH ROW
+BEGIN
+
+DECLARE user_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET user_data  = CONCAT_WS
+(', ', new.user_id, new.name, new.email, new.password, new.mobile, new.role);
+SET user = CURRENT_USER;
+SET operation = 'UPDATE';
+SET changedat = now();
+
+INSERT INTO user_log (data, user, operation, changedat)
+VALUES
+(user_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+update user
+set password="dasu123"
+where user_id="U002";
+
+##################################################################################################
+
+DROP TRIGGER IF EXISTS TR_before_delete_user;
+DELIMITER //
+CREATE TRIGGER TR_before_delete_user
+BEFORE DELETE 
+ON user FOR EACH ROW
+BEGIN
+
+DECLARE user_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET user_data  = CONCAT_WS
+(', ', old.user_id, old.name, old.email, old.password, old.mobile, old.role);
+SET user = CURRENT_USER;
+SET operation = 'DELETE';
+SET changedat = now();
+
+INSERT INTO user_log (data, user, operation, changedat)
+VALUES
+(user_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+delete from user
+where user_id="U005";
+
+#########################################################################################################
+
+
+#########################################################################################################
+
+Order log
+
+
+DROP TRIGGER IF EXISTS TR_after_insert_order;
+DELIMITER //
+CREATE TRIGGER TR_after_insert_order
+AFTER INSERT 
+ON order_details 
+FOR EACH ROW
+BEGIN
+
+DECLARE order_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET order_data  = CONCAT_WS
+(', ', new.order_id, new.item, new.quantity, new.item_id, new.user_id, new.date, new.amount);
+SET user = CURRENT_USER;
+SET operation = 'INSERT';
+SET changedat = now();
+
+INSERT INTO order_log (data, user, operation, changedat)
+VALUES
+(order_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+insert into order_details
+values("OD/01","cake",10,"P002","U001", "2021-06-29", 1000.00);
+
+#####################################################################################################################
+
+DROP TRIGGER IF EXISTS TR_after_update_order;
+DELIMITER //
+CREATE TRIGGER TR_after_update_order
+AFTER UPDATE 
+ON order_details 
+FOR EACH ROW
+BEGIN
+
+DECLARE order_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET order_data  = CONCAT_WS
+(', ', new.order_id, new.item, new.quantity, new.item_id, new.user_id, new.date, new.amount);
+SET user = CURRENT_USER;
+SET operation = 'UPDATE';
+SET changedat = now();
+
+INSERT INTO order_log (data, user, operation, changedat)
+VALUES
+(order_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+##################################################################################################
+
+DROP TRIGGER IF EXISTS TR_before_delete_order;
+DELIMITER //
+CREATE TRIGGER TR_before_delete_order
+BEFORE DELETE 
+ON order_details 
+FOR EACH ROW
+BEGIN
+
+DECLARE order_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET order_data  = CONCAT_WS
+(', ', old.order_id, old.item, old.quantity, old.item_id, old.user_id, old.date, old.amount);
+SET user = CURRENT_USER;
+SET operation = 'DELETE';
+SET changedat = now();
+
+INSERT INTO order_log (data, user, operation, changedat)
+VALUES
+(order_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+#########################################################################################################
+
+
+#########################################################################################################
+
+Item log
+
+
+DROP TRIGGER IF EXISTS TR_after_insert_item;
+DELIMITER //
+CREATE TRIGGER TR_after_insert_item
+AFTER INSERT 
+ON item 
+FOR EACH ROW
+BEGIN
+
+DECLARE item_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET item_data  = CONCAT_WS
+(', ', new.item_id, new.item_type, new.name, new.unit_price, new.mfd_date, new.exp_date);
+SET user = CURRENT_USER;
+SET operation = 'INSERT';
+SET changedat = now();
+
+INSERT INTO item_log (data, user, operation, changedat)
+VALUES
+(item_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+insert into item
+values
+("P001","Product","Chocalate",100.00,"2021-01-01","2022-01-01"),
+("P002","Product","Biscuit",60.00,"2021-08-01","2022-08-01"),
+("P003","Food","Rice",80.00,"2021-06-30","2021-06-30"),
+("P004","Product","Cake",150.00,"2021-01-01","2022-01-01"),
+("P005","Product","Yogurt",45.00,"2021-01-01","2021-08-01"),
+("P006","Food","Kottu",120.00,"2021-06-30","2021-06-30");
+
+#####################################################################################################################
+
+DROP TRIGGER IF EXISTS TR_after_update_item;
+DELIMITER //
+CREATE TRIGGER TR_after_update_item
+AFTER UPDATE 
+ON item 
+FOR EACH ROW
+BEGIN
+
+DECLARE item_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET item_data  = CONCAT_WS
+(', ', new.item_id, new.item_type, new.name, new.unit_price, new.mfd_date, new.exp_date);
+SET user = CURRENT_USER;
+SET operation = 'UPDATE';
+SET changedat = now();
+
+INSERT INTO item_log (data, user, operation, changedat)
+VALUES
+(item_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+update item
+set unit_price=105.00
+where item_id="P001";
+
+##################################################################################################
+
+DROP TRIGGER IF EXISTS TR_before_delete_item;
+DELIMITER //
+CREATE TRIGGER TR_before_delete_item
+BEFORE DELETE 
+ON item 
+FOR EACH ROW
+BEGIN
+
+DECLARE item_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET item_data  = CONCAT_WS
+(', ', old.item_id, old.item_type, old.name, old.unit_price, old.mfd_date, old.exp_date);
+SET user = CURRENT_USER;
+SET operation = 'DELETE';
+SET changedat = now();
+
+INSERT INTO item_log (data, user, operation, changedat)
+VALUES
+(item_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+#########################################################################################################
+
+
+#########################################################################################################
+
+Inventory log
+
+DROP TRIGGER IF EXISTS TR_after_insert_inventory;
+DELIMITER //
+CREATE TRIGGER TR_after_insert_inventory
+AFTER INSERT 
+ON inventory
+FOR EACH ROW
+BEGIN
+
+DECLARE inve_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET inve_data  = CONCAT_WS
+(', ', new.inve_id, new.quantity, new.item_id, new.order_id);
+SET user = CURRENT_USER;
+SET operation = 'INSERT';
+SET changedat = now();
+
+INSERT INTO inventory_log (data, user, operation, changedat)
+VALUES
+(inve_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+insert into inventory
+values
+("I001",500,"P001","OD/01"),
+("I002",500,"P002","OD/02"),
+("I003",500,"P003","OD/03"),
+("I004",500,"P004","OD/04"),
+("I005",500,"P005","OD/05"),
+("I006",500,"P006","OD/06");
+
+#####################################################################################################################
+
+DROP TRIGGER IF EXISTS TR_after_update_inventory;
+DELIMITER //
+CREATE TRIGGER TR_after_update_inventory
+AFTER UPDATE 
+ON inventory 
+FOR EACH ROW
+BEGIN
+
+DECLARE inve_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET inve_data  = CONCAT_WS
+(', ', new.inve_id, new.quantity, new.item_id, new.order_id);
+SET user = CURRENT_USER;
+SET operation = 'UPDATE';
+SET changedat = now();
+
+INSERT INTO inventory_log (data, user, operation, changedat)
+VALUES
+(inve_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+
+##################################################################################################
+
+DROP TRIGGER IF EXISTS TR_before_delete_inventory;
+DELIMITER //
+CREATE TRIGGER TR_before_delete_inventory
+BEFORE DELETE 
+ON inventory 
+FOR EACH ROW
+BEGIN
+
+DECLARE inve_data VARCHAR(100);
+DECLARE user VARCHAR(20);
+DECLARE operation VARCHAR(10);
+DECLARE changedat DATETIME;
+
+SET inve_data  = CONCAT_WS
+(', ', old.inve_id, old.quantity, old.item_id, old.order_id);
+SET user = CURRENT_USER;
+SET operation = 'DELETE';
+SET changedat = now();
+
+INSERT INTO inventory_log (data, user, operation, changedat)
+VALUES
+(inve_data, user, operation, changedat);
+END//
+DELIMITER ;
+
+###############################################################################################################
+
+
+##############################################################################################################
+
+update inventory quantity (if order order is added)
+
+
+DROP TRIGGER IF EXISTS TR_update_inventory;
+DELIMITER //
+CREATE TRIGGER TR_update_inventory
+ON order_details
+FOR EACH ROW
+BEGIN
+
+    UPDATE Inventory
+    SET quantity = quantity - NEW.quantity 
+    WHERE item_id = New.item_id;
+
+END//
+DELIMITER ;
+
+##############################################################################
+
+update inventory quantity (if order order is delete)
+
+
+DROP TRIGGER IF EXISTS TR_update_inventory_delete_order;
+DELIMITER //
+CREATE TRIGGER TR_update_inventory_delete_order
+BEFORE DELETE
+ON order_details
+FOR EACH ROW
+BEGIN
+
+    UPDATE Inventory
+    SET quantity = quantity + old.quantity 
+    WHERE item_id = old.item_id;
+
+END//
+DELIMITER ;
+
+###############################################################################
+
+delete order from order table (after insert order into transaction table)                      *******
+
+
+DROP TRIGGER IF EXISTS TR_delete_order_on_orderDetails;
+DELIMITER //
+CREATE TRIGGER TR_delete_order_on_orderDetails
+AFTER INSERT 
+ON transaction 
+FOR EACH ROW
+BEGIN
+	
+	DELETE FROM order_details
+	WHERE order_id=New.order_id;
+
+END//
+DELIMITER ;
+
+#############################################################################
+
+update item unit_price (also update total amount in order table)
+
+
+DROP TRIGGER IF EXISTS TR_update_price_on_item;
+DELIMITER //
+CREATE TRIGGER TR_update_price_on_item
+AFTER UPDATE
+ON item
+FOR EACH ROW
+BEGIN
+
+    UPDATE order_details
+    SET amount = quantity * new.unit_price
+    WHERE item_id = new.item_id;
+
+END//
+DELIMITER ;
+
+update item
+set unit_price=90.00
+where item_id="P003";
+
+
+

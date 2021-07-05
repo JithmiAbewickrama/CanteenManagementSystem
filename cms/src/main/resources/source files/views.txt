@@ -1,0 +1,39 @@
+
+View student details
+
+CREATE OR REPLACE VIEW student_details AS 
+SELECT user_id as 'Registration_no',
+name AS 'student_name',
+email AS 'email',
+mobile AS 'contact_no'
+FROM user 
+WHERE role='Student'
+ORDER BY user_id;
+
+select * from student_details;
+
+########################################################################################################
+
+View staff details
+
+CREATE OR REPLACE VIEW staff_details AS 
+SELECT user_id as 'Registration_no',
+name AS 'Lecturer_name',
+email AS 'email',
+mobile AS 'contact_no'
+FROM user 
+WHERE role='Staff'
+ORDER BY user_id;
+
+select * from staff_details;
+
+########################################################################################################
+
+View all order details(admin)
+
+CREATE OR REPLACE VIEW admin_view AS
+SELECT o.order_id,i.unit_price,o.quantity,o.item_id,o.date,i.unit_price * o.quantity AS total_amount 
+FROM order_details o,item i
+WHERE i.item_id=o.item_id;
+
+select * from admin_view;
